@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		FF2EC5F724923210001D03C3 /* ReceiveSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2EC5F624923210001D03C3 /* ReceiveSchedule.swift */; };
+		FF3434CD24E6A2EA00F2B0FC /* MyCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF3434CB24E6A24800F2B0FC /* MyCalendar.swift */; };
 		FF58BA4824DF8E14004DAE45 /* CustomShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF58BA4724DF8E14004DAE45 /* CustomShape.swift */; };
 		FF58BA4A24DFCED9004DAE45 /* DetailGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF58BA4924DFCED9004DAE45 /* DetailGallery.swift */; };
+		FF656CEB24E91FE1000B2B32 /* ScrollViewLearning.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF656CEA24E91FE1000B2B32 /* ScrollViewLearning.swift */; };
 		FF6CDD4124DEC1BA00018951 /* HexagonParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6CDD4024DEC1BA00018951 /* HexagonParametersView.swift */; };
 		FF80042F24C72211004A88ED /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF80042E24C72211004A88ED /* ColorSet.swift */; };
 		FF93178F2490FDBB008CB602 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF93178E2490FDBB008CB602 /* AppDelegate.swift */; };
@@ -45,8 +47,10 @@
 
 /* Begin PBXFileReference section */
 		FF2EC5F624923210001D03C3 /* ReceiveSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiveSchedule.swift; sourceTree = "<group>"; };
+		FF3434CB24E6A24800F2B0FC /* MyCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCalendar.swift; sourceTree = "<group>"; };
 		FF58BA4724DF8E14004DAE45 /* CustomShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShape.swift; sourceTree = "<group>"; };
 		FF58BA4924DFCED9004DAE45 /* DetailGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailGallery.swift; sourceTree = "<group>"; };
+		FF656CEA24E91FE1000B2B32 /* ScrollViewLearning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollViewLearning.swift; sourceTree = "<group>"; };
 		FF6CDD4024DEC1BA00018951 /* HexagonParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonParametersView.swift; sourceTree = "<group>"; };
 		FF80042E24C72211004A88ED /* ColorSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSet.swift; sourceTree = "<group>"; };
 		FF93178B2490FDBB008CB602 /* Pusher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pusher.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,7 +132,9 @@
 				FF6CDD4024DEC1BA00018951 /* HexagonParametersView.swift */,
 				FF58BA4724DF8E14004DAE45 /* CustomShape.swift */,
 				FF58BA4924DFCED9004DAE45 /* DetailGallery.swift */,
+				FF656CEA24E91FE1000B2B32 /* ScrollViewLearning.swift */,
 				FF80042E24C72211004A88ED /* ColorSet.swift */,
+				FF3434CB24E6A24800F2B0FC /* MyCalendar.swift */,
 				FF9317942490FDBF008CB602 /* Assets.xcassets */,
 				FF9317992490FDBF008CB602 /* LaunchScreen.storyboard */,
 				FF93179C2490FDBF008CB602 /* Info.plist */,
@@ -295,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FFFF437424E03933007311E3 /* NotificationTemplate.swift in Sources */,
+				FF656CEB24E91FE1000B2B32 /* ScrollViewLearning.swift in Sources */,
 				FFC7BA0C2494B9410064B1B3 /* SendMail.swift in Sources */,
 				FF58BA4A24DFCED9004DAE45 /* DetailGallery.swift in Sources */,
 				FF80042F24C72211004A88ED /* ColorSet.swift in Sources */,
@@ -303,6 +310,7 @@
 				FFFF437224E01097007311E3 /* CheckBox.swift in Sources */,
 				FF93178F2490FDBB008CB602 /* AppDelegate.swift in Sources */,
 				FF9317912490FDBB008CB602 /* SceneDelegate.swift in Sources */,
+				FF3434CD24E6A2EA00F2B0FC /* MyCalendar.swift in Sources */,
 				FF2EC5F724923210001D03C3 /* ReceiveSchedule.swift in Sources */,
 				FF9317932490FDBB008CB602 /* ContentView.swift in Sources */,
 				FF6CDD4124DEC1BA00018951 /* HexagonParametersView.swift in Sources */,
@@ -402,7 +410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -456,7 +464,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

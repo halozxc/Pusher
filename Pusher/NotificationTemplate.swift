@@ -28,7 +28,7 @@ struct NotificationTemplate: View {
                     .padding(.leading)
                 Spacer()
                 
-                Image(self.Imagetext).resizable().frame(width: 75.0, height: 75.0).aspectRatio(contentMode: .fit)
+                Image(self.Imagetext).resizable().frame(width: 50.0, height: 50.0).aspectRatio(contentMode: .fit)
                 
             }
             .padding([.bottom, .trailing])

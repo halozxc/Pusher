@@ -17,7 +17,7 @@ struct ContentView: View {
     @State var tipTemp = false
     @State var tabTag = 0
     @State var receivedNotifications : [ChannelList] = [
-        ChannelList(sender: "运营一家庭", potrait: "portrait1", notifications: [DetailItem(mode: .Event, Content: ["前往开会","2020/10/24","萧山机场"])
+        ChannelList(sender: "媒体工作室 ", potrait: "portrait1", notifications: [DetailItem(mode: .Event, Content: ["前往开会","2020/10/24","萧山机场"])
             ,DetailItem(mode: .Task, Content: ["请完善健康上报","2020/8/2","www.wjx.com","请尽快完成"])
             ,DetailItem(mode: .Event, Content: ["简短会议","2020/8/2","201室"])
             ,DetailItem(mode: .Tip, Content: ["今日有人生日哦","2020/8/2","www.wjx.com","请尽快完成"])
@@ -32,6 +32,11 @@ struct ContentView: View {
         ])]
     @State var sendedNotifications : DetailItemList = DetailItemList(items: [DetailItem(mode: .Event, Content: ["前往开会","2020/10/24","萧山机场"]),DetailItem(mode: .Tip, Content: ["今日有人生日哦"])])
     let tabNavigationTitle : [String] = ["最新","选择模版","已发布"]
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.clear
+        
+       
+    }
     var body: some View {
         
         ZStack {
@@ -78,7 +83,7 @@ struct ContentView: View {
                                 self.eventTemp = true
                             }.scaleEffect(self.eventTemp ? 5 : 1).opacity(self.eventTemp ? 0 : 1).animation(.spring(response: 0.1, dampingFraction: 1, blendDuration: 0.2))
                                 .sheet(isPresented: $eventTemp ){
-                                    SendMail(NTitle: "事件", NSecTitle: "哈哈")
+                                    SendMail(NTitle: "", NSecTitle: "")
                                     
                             }
                             
@@ -105,7 +110,7 @@ struct ContentView: View {
                         VStack{
                             ForEach(self.sendedNotifications.items){value in
                                 if(value.mode == NotificationContentMode.Event){
-                                   EditGalleryEventItem(info: value.Content)
+                                    EditGalleryEventItem(info: value.Content)
                                 }
                                 if(value.mode == NotificationContentMode.Task){
                                     EditGalleryTaskItem(info: value.Content)
@@ -126,9 +131,28 @@ struct ContentView: View {
                     
                 }.accentColor(Color.purple).navigationBarTitle(Text("\(self.tabNavigationTitle[self.tabTag])"),displayMode: .automatic)
                     .navigationBarItems(leading: Button(action: {}){
-                        Image(systemName: "plus")
-                            .font(.title)
-                            .accessibility(label: Text("添加新频道"))
+                        Button(action: {
+                            
+                            
+                            let content = UNMutableNotificationContent()
+                            content.title = "我们为你整理了一些新的通知"
+                            content.body = "年级通知群，协会养老院等发布了多项新通知"
+                            content.sound = UNNotificationSound.default
+
+                            // show this notification five seconds from now
+                            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 15, repeats: false)
+
+                            // choose a random identifier
+                            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+
+                            // add our notification request
+                            UNUserNotificationCenter.current().add(request)
+                           }){
+                                Image(systemName: "plus")
+                                    .font(.title)
+                                    .accessibility(label: Text("添加新频道"))
+                        }
+                        
                         },trailing: HStack{
                             NavigationLink(destination:ReceiveSchedule()){
                                 Image(systemName: "alarm")
@@ -255,7 +279,7 @@ struct Itemnum: View {
                 .frame(width: 10.0, height: 10.0)
                 .font(.body).foregroundColor(Color.blue)
                 .padding(.all, 15.0).background(Color.white).cornerRadius(40)
-            .shadow(radius: 1)
+                .shadow(radius: 1)
                 .overlay( ZStack {
                     Circle().fill(Color.red).frame(width: 25.0, height: 25.0).offset(x:self.offset.x,y:self.offset.y)
                     Text("\(self.count)").font(.footnote).foregroundColor(Color.white).offset(x:self.offset.x,y:self.offset.y)
@@ -273,10 +297,10 @@ struct Itemnum: View {
     }
 }
 struct EditGalleryEventItem: View {
-     @State var info : [String]
+    @State var info : [String]
     var body : some View {
         VStack {
-            EditGalleryItemMenu(imageName: "calendar")
+            EditGalleryItemMenu(info: info, imageName: "calendar")
             GalleryEventInfo(info: self.info)
         }.background(RoundedRectangle(cornerRadius: 25).fill(Color.white).opacity(0.5).blur(radius: 3).shadow(radius: 4).overlay(RoundedRectangle(cornerRadius: 25).stroke(Color(#colorLiteral(red: 0.6862745098, green: 0.6980392157, blue: 0.9137254902, alpha: 1)),lineWidth: 2))).padding(.horizontal)
     }
@@ -285,31 +309,36 @@ struct EditGalleryTaskItem: View {
     @State var info : [String]
     var body : some View {
         VStack {
-            EditGalleryItemMenu(imageName: "hammer")
+            EditGalleryItemMenu(info: info, imageName: "hammer")
             GalleryTaskInfo(info: self.info)
         }.background(RoundedRectangle(cornerRadius: 25).fill(Color.white).opacity(0.5).blur(radius: 3).shadow(radius: 4).overlay(RoundedRectangle(cornerRadius: 25).stroke(Color(#colorLiteral(red: 0.6862745098, green: 0.6980392157, blue: 0.9137254902, alpha: 1)),lineWidth: 2))).padding(.horizontal)
     }
 }
 struct EditGalleryTipItem: View {
-     @State var info : [String]
+    @State var info : [String]
     var body : some View {
         VStack {
-            EditGalleryItemMenu(imageName: "lightbulb")
+            EditGalleryItemMenu(info: info, imageName: "lightbulb")
             GalleryTipInfo(info: self.info)
         }.background(RoundedRectangle(cornerRadius: 25).fill(Color.white).opacity(0.5).blur(radius: 3).shadow(radius: 4).overlay(RoundedRectangle(cornerRadius: 25).stroke(Color(#colorLiteral(red: 0.6862745098, green: 0.6980392157, blue: 0.9137254902, alpha: 1)),lineWidth: 2))).padding(.horizontal)
     }
 }
 struct EditGalleryItemMenu : View {
+    @State var info : [String]
     let width : CGFloat =  30.0
     let height : CGFloat =  30.0
     @State var imageName : String
+    @State var presenting = false
     var body : some View{
         HStack{
             Image( systemName: "\(imageName)").frame(width: 40.0, height: 40.0).font(.title).foregroundColor(.blue)
             Spacer()
-            Button(action: {}){
-                Image(systemName: "pencil").frame(width: self.width, height: self.height).font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
-            }.padding(.horizontal,3)
+            Image(systemName: "pencil").frame(width: self.width, height: self.height).font(.body).foregroundColor(Color.blue).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
+                .padding(.horizontal,3).sheet(isPresented:  $presenting){
+                    SendMail(NTitle: self.info.count>0 ? self.info[0] : "", NSecTitle: self.info.count>2 ? self.info[2] : "")
+            }.onTapGesture {
+                self.presenting.toggle()
+            }
             
             Button(action: {}){
                 Image(systemName: "trash").frame(width: self.width, height: self.height).font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))

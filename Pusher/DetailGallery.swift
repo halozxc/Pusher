@@ -7,11 +7,11 @@
 //
 
 import SwiftUI
-
+import EventKit
 struct DetailGallery: View {
     @State var itemList : [DetailItem]
     @State var Title:String
- 
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 20.0) {
@@ -26,10 +26,10 @@ struct DetailGallery: View {
                         GalleryTipItem(info: value.Content)
                     }
                 }
-            
+                
             }.navigationBarTitle(self.Title)
+        }
     }
-}
 }
 struct DetailGallery_Previews: PreviewProvider {
     static var previews: some View {
@@ -42,7 +42,7 @@ struct DetailGallery_Previews: PreviewProvider {
 }
 
 struct GalleryEventItem: View {
-      @State var info : [String]
+    @State var info : [String]
     var body: some View {
         VStack {
             GalleryEventMenu()
@@ -51,16 +51,16 @@ struct GalleryEventItem: View {
     }
 }
 struct GalleryTaskItem: View {
-      @State var info : [String]
+    @State var info : [String]
     var body: some View {
         VStack {
-            GalleryTaskMenu()
+            GalleryTaskMenu(info: self.info)
             GalleryTaskInfo(info: self.info)
         }.background(RoundedRectangle(cornerRadius: 25).fill(Color.white).opacity(0.5).shadow(radius: 4).overlay(RoundedRectangle(cornerRadius: 25).stroke(Color("NameLabelGradientEnd"),lineWidth: 2))).padding(.horizontal)
     }
 }
 struct GalleryTipItem: View {
-      
+    
     @State var info : [String]
     var body: some View {
         VStack {
@@ -71,8 +71,9 @@ struct GalleryTipItem: View {
 }
 
 struct GalleryEventMenu: View {
-   let width : CGFloat =  30.0
-   let height : CGFloat =  30.0
+    let width : CGFloat =  30.0
+    let height : CGFloat =  30.0
+    @State var isshow = false
     var body: some View {
         HStack(spacing: 27.0){
             Image(systemName: "calendar").font(.title).foregroundColor(.blue)
@@ -80,9 +81,17 @@ struct GalleryEventMenu: View {
             Button(action: {}){
                 Image(systemName: "mappin").font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
             }.padding(.horizontal,5)
-            Button(action: {}){
+            Button(action: {
+             
+                self.isshow.toggle()
+               
+                
+                
+            }){
                 Image(systemName: "calendar").font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
-            }.padding(.horizontal,3)
+            }.padding(.horizontal,3).sheet(isPresented: self.$isshow){
+                EKEventWrapper(isShowing: self.$isshow)
+            }
             Button(action: {}){
                 Image(systemName: "trash").font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
             }.padding(.trailing,5)
@@ -98,7 +107,7 @@ struct GalleryEventInfo: View {
         HStack {
             VStack(alignment: .leading) {
                 
-                Text(info.count > 0 ? info[0] : "").font(.title).bold().multilineTextAlignment(.leading)
+                Text(info.count > 0 ? info[0] : "").font(.body).bold().multilineTextAlignment(.leading)
                 Text("时间：\(info.count > 1 ? info[1] : "")").font(.caption).multilineTextAlignment(.leading)
                 Text("地点：\(info.count > 2 ? info[2] : "")").font(.caption).multilineTextAlignment(.leading)
             }
@@ -109,6 +118,7 @@ struct GalleryEventInfo: View {
     }
 }
 struct GalleryTaskMenu: View {
+    @State var info : [String]
     let width : CGFloat =  30.0
     let height : CGFloat =  30.0
     var body: some View {
@@ -118,7 +128,22 @@ struct GalleryTaskMenu: View {
             Button(action: {}){
                 Image(systemName: "mappin").font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
             }.padding(.horizontal,5)
-            Button(action: {}){
+            Button(action: {
+                
+                if(self.info.count > 2){     let url = URL(string: "https://\(self.info[2])")
+                    //根据iOS系统版本，分别处理
+                    if #available(iOS 10, *) {
+                        UIApplication.shared.open(url!, options: [:],
+                                                  completionHandler: {(success) in
+                                                    print(success)
+                        })
+                    } else {
+                        UIApplication.shared.openURL(url!)
+                    }}
+                
+                
+                
+            }){
                 Image(systemName: "location.fill").font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
             }.padding(.horizontal,3)
             Button(action: {}){
@@ -147,14 +172,15 @@ struct GalleryTaskInfo: View {
 struct GalleryTipMenu: View {
     let width : CGFloat =  30.0
     let height : CGFloat =  30.0
+    @State var loved = false
     var body: some View {
         HStack(spacing: 20.0){
             Image(systemName: "lightbulb").frame(width: self.width, height: self.height).font(.title).foregroundColor(.blue)
             Spacer()
-            Button(action: {}){
-                Image(systemName: "heart").frame(width: self.width, height: self.height).font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
+            Button(action: {self.loved.toggle()}){
+                Image(systemName: self.loved ? "heart.fill" : "heart").foregroundColor(self.loved ? Color.red  : Color.blue).frame(width: self.width, height: self.height).font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
             }.padding(.horizontal,3)
-          
+            
             Button(action: {}){
                 Image(systemName: "trash").frame(width: self.width, height: self.height).font(.body).background(Circle().fill(Color.white).frame(width: self.width, height: self.height).shadow(radius: 3))
             }.padding(.trailing,5)
@@ -163,12 +189,12 @@ struct GalleryTipMenu: View {
     }
 }
 struct GalleryTipInfo: View {
-      @State var info : [String]
+    @State var info : [String]
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
                 
-                Text("\(info.count > 0 ? info[0] : "")").font(.title).bold().multilineTextAlignment(.leading)
+                Text("\(info.count > 0 ? info[0] : "")").font(.body).bold().multilineTextAlignment(.leading)
                 
             }
             

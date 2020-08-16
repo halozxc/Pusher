@@ -9,45 +9,54 @@
 import SwiftUI
 
 struct ReceiveSchedule: View {
-    @State var schedule : [Bool] = [false,true,false,false,false,true,false ,true,false,true,true,true,false,true,false,false,false,true,false ,true,false,true,false ,false,true]
+    @State var schedule : [Bool] = [false,false,false,false,false,false,false ,false,false,false,false,false,false,false,false,false,false,false,false ,false,false,false,false ,false,false]
     @State var Selected = 0
     @State var dayandnight = 0
+    @State var angle : Double = 0
     public static let ScreenBounds = UIScreen.main.bounds
      let daysegment :[String] = ["上","下"]
     
     var body: some View {
   
         ZStack {
-            Image("TimeBackground").resizable().edgesIgnoringSafeArea(.all)
-            VStack {
-                HStack{
-                    Spacer()
-                    Picker( "选择时间",selection:self.$dayandnight){
-                        ForEach(0..<2){count in
-                            Text("\(self.daysegment[count])午")
-                    
-                        }
-                    }.padding(.horizontal).pickerStyle(SegmentedPickerStyle())
-                }
+           
+            VStack(spacing: 21.0) {
+             
                 ZStack {
-                    ClockBounds()
+                    //ClockBounds()
+                    Image("dial").resizable().scaledToFit().padding(.all,35).shadow(radius: 10)
+                    
+                    ZStack {
+                        Capsule().offset(x:0,y:-40).rotationEffect(Angle(degrees: self.angle)).shadow(radius: 3)
+                        Capsule().fill(Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))).frame(width:3,height:20).offset(x:0,y:-69).rotationEffect(Angle(degrees: self.angle))
+                        Circle().fill(Color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))).overlay(Circle().stroke(Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)),lineWidth: 2))
+                    }.frame(width:9,height:87).animation(.easeOut)
                     ForEach(1..<13){count in
                         
                         
                         ZStack{
-                            Circle().fill(self.schedule[count+12*self.dayandnight] ? Color("BackgroundGradient") : Color.white)
-                                .animation(.easeInOut)
-                            Text("\(count)")
+                            
+                            Text("\(count)").foregroundColor(self.schedule[count+12*self.dayandnight] ? Color(#colorLiteral(red: 0.4431372549, green: 0.3921568627, blue: 1, alpha: 1)) : Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 1))).bold( ).scaleEffect(self.schedule[count+12*self.dayandnight] ? 1.5 : 1).animation(.spring())
                         
                         }.onTapGesture {
                             self.schedule[count+12*self.dayandnight].toggle();
-                            }.shadow(radius: 3)
+                            self.angle = Double(count )*30.0
+                            }
                         
-                        .multilineTextAlignment(.center).frame(width: 45.0, height: 45.0).offset(x:CalClockOffset.GetOffset(time: count, Scale:0.41*ReceiveSchedule.ScreenBounds.width).y,y:-CalClockOffset.GetOffset(time: count,Scale:0.4*ReceiveSchedule.ScreenBounds.width).x)
+                        .multilineTextAlignment(.center).frame(width: 45.0, height: 45.0).offset(x:CalClockOffset.GetOffset(time: count, Scale:0.32*ReceiveSchedule.ScreenBounds.width).y,y:-CalClockOffset.GetOffset(time: count,Scale:0.32*ReceiveSchedule.ScreenBounds.width).x)
                         
                     }
                     
                 }
+                HStack{
+                                
+                                 Picker( "选择时间",selection:self.$dayandnight){
+                                     ForEach(0..<2){count in
+                                         Text("\(self.daysegment[count])午")
+                                 
+                                     }
+                                 }.padding(.horizontal,100).pickerStyle(SegmentedPickerStyle())
+                             }
             }
                 
             .frame(height: 500.0)
@@ -75,6 +84,7 @@ class CalClockOffset{
     }
     public static func GetOffset(time:Int,Scale:CGFloat)->CGPoint{
         
+        return CalClockOffset.CalOffset(time: time, Scale: 0.97*Scale)
         if(time%2 == 1){
             let a = CalClockOffset.CalOffset(time: time-1, Scale: Scale)
             let b = CalClockOffset.CalOffset(time: time+1, Scale: Scale)

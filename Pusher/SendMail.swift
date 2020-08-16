@@ -146,6 +146,7 @@ struct TimeChooser: View {
             if(showPicker){
                 Divider()
                 HStack{
+                    
                     DatePicker("", selection: $selectTime)
                 }
             }
